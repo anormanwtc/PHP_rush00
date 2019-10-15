@@ -1,14 +1,4 @@
 <?php
-	//adding items
-	function add_item_to ($item, $value, $catagory) {
-		if (file_exists('../Resources/database/items'))
-			$item_data = unserialize(file_get_contents('../Resources/database/items'));
-		$thing['item'] = $item;
-		$thing['value'] = $value;
-		$item['cat'] = $catagory;
-		$item_data[] = $thing;
-		file_put_contents('../Resources/database/items', serialize($item_data));
-	}
 	function add_catagory($catagory) {
 		if (file_exists('../Resources/database/items'))
 		{
@@ -23,19 +13,25 @@
 		$item_data['cata'][] = $catagory;
 		file_put_contents('../Resources/database/items', serialize($item_data));
 	}
-	//deleting items
-	function remove_item_from($item, $catagory) {
+	//deleting catagory
+	function rm_catagory($catagory) {
 		if (file_exists('../Resources/database/items'))
 		{
 			$item_data = unserialize(file_get_contents('../Resources/database/items'));
-			foreach ($item_data as $key => $thing)
+			foreach ($item_data['cata'] as $key => $current)
 			{
-				if ($thing['item'] === $item) {
-					unset($item_data[$key]);
+				if ($current == $catagory) {
+					unset($item_data['cata'][$key]);
 					break;
 				}
 			}
-			file_put_contents('../Resources/database/items', serialize($item_data));
 		}
+		file_put_contents('../Resources/database/items', serialize($item_data));
+	}
+	function list_catagory() {
+		$data = unserialize(file_get_contents("../Resources/database/items"));
+			foreach ($data['cata'] as $set){
+              echo $set . '<br />';
+          }
 	}
 ?>
