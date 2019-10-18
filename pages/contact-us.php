@@ -1,5 +1,7 @@
 <?php
-  include("../Resources/login_header.php");
+  include_once("../Resources/login_header.php");
+  include_once("../Resources/cart_add.php");
+  session_start();
 ?>
 
 <!DOCTYPE html>
@@ -19,27 +21,38 @@
   <div class="headertext">
     <span>Cheeseworld Pty. Ltd.</span>
   </div>
+  <div class="cart">
+      <a href="../pages/cart.php" >
+      <div style="float: left; padding-right: 5px">
+      <img src="../resources/images/cart.jpg" alt="cart" height="20px" width="auto">
+      </a>
+      </div>
+        <?php $totals = find_cart($_SESSION['user'], '..');
+          printf("<figcaption>%d items at R %d</figcaption>", $totals['quantity'], $totals['price']);?>
+    </div>
+</div>
 </div>
 <div class="navbar">
   <a href="../index.php">Home</a>
   <div class="dropdown">
-    <button class="dropbtn"><a class="store" href="../pages/store-catagories.php"> Cheese Store </a>
-      <i class="" href="http://www.google.com"></i>
+    <button class="dropbtn"><a class="store" href="./store.php"> Cheese Store </a>
     </button>
     <div class="dropdown-content">
-      <a href="../pages/stinky-cheese.php">Stinky Cheese</a>
-      <a href="../pages/processed-cheese.php">Processed Cheese</a>
-      <a href="../pages/weird-cheese.php">Weird Cheese</a>
+      <form method="POST" action="../pages/store.php">
+      <?php
+       $item_data = unserialize(file_get_contents("../Resources/database/items"));
+       foreach($item_data['cata'] as $set){
+          echo'
+          <input type="submit" name="redirect" value="' . $set . '" style="width: 100%; text-align: center"></input>';
+       }
+        ?>
+      </form>
     </div>
   </div>
   <a href="../pages/about-us.php">About Us</a>
   <a href="../pages/contact-us.php">Contact Us</a>
   <div class="login-container">
-    <div class="cart">
-      <a href="../pages/cart.php" >
-        <img src="../resources/images/cart.jpg" alt="cart" height="20px" width="auto">
-      </a>
-    </div>
+    
     <?php $error = logincheck('..'); echo '
   </div>
 </div>';

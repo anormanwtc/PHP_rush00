@@ -1,6 +1,6 @@
 <?php
 function logincheck($path) {
-	include("$path/Resources/login_action.php");
+	include_once("$path/Resources/login_action.php");
 	session_start();
 	if ($_SESSION['user'] && $_SESSION['user'] !== "")
 	{
@@ -15,7 +15,7 @@ function logincheck($path) {
 			header("Refresh:0");
 		}
 		if ($_POST['delete'] == 'Kill' && $_SESSION['user'] !== 'admin') {
-			$res = ft_delete($_SESSION['user'], $path);
+			$res = ft_delete_user($_SESSION['user'], $path);
 			$_SESSION['user'] = "";
 			header("Refresh:0");
 		}
